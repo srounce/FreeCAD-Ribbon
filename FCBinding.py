@@ -5600,7 +5600,7 @@ class ModernMenu(RibbonBar):
                 if main >= int(version[0]):
                     if sub >= int(version[1]):
                         if patch >= int(version[2]):
-                            if git_version >= int(version[3].split(" ")[0]):
+                             if version[3] == 'Unknown' or git_version >= int(version[3].split(" ")[0]):
                                 if Parameters_Ribbon.DEBUG_MODE is True:
                                     print("no conversion needed")
                                 return
@@ -5748,12 +5748,17 @@ class ModernMenu(RibbonBar):
                 "convertedWithVersion",
             ],
         )
-        self.ribbonStructure["convertedWithVersion"] = [
+        convertedVersion = [
             int(version[0]),
             int(version[1]),
             int(version[2]),
-            int(version[3].split(" ")[0]),
         ]
+        if version[3] == "Unknown":
+            convertedVersion.append(0)
+        else:
+            convertedVersion.append(int(version[3].split(" ")[0]))
+
+        self.ribbonStructure["convertedWithVersion"] = convertedVersion
 
         # Update the json file but make also an backup
         # get the path for the Json file
